@@ -188,26 +188,3 @@ The application connects to JSON Server running at `http://localhost:3000`:
 | | `PUT` | `/timetable/:id` | Update class schedule slot | `timetableService.updateTimetable(id, entry)` |
 | | `DELETE` | `/timetable/:id` | Delete class schedule slot | `timetableService.deleteTimetable(id)` |
 
----
-
-## 📋 PDF Requirement Compliance Audit
-
-| Requirement from Specification PDF | Implementation / File Location | Status |
-| :--- | :--- | :--- |
-| **HTML Layer** | `views/*.html` (All 8 pages inside `views/`, none in root) | ✅ Compliant |
-| **CSS Styling** | `css/*.css` (All 8 CSS files in `css/`, zero inline style tags) | ✅ Compliant |
-| **Vanilla JavaScript & DOM** | `js/*.js` (Vanilla JS, DOM event listeners, modal controllers) | ✅ Compliant |
-| **Axios Service Layer** | `js/service/*.js` (Axios calls live ONLY in service layer) | ✅ Compliant |
-| **Zero DOM in Services** | `js/service/*.js` (Services return promises, never touch DOM) | ✅ Compliant |
-| **Zero Axios in UI files** | `js/*.js` (UI controllers call services, no direct axios calls) | ✅ Compliant |
-| **Centralized Error Handling** | `exception/apiException.js` (Centralized `handleApiError`) | ✅ Compliant |
-| **Domain Form Validation** | `exception/validationException.js` (`validateStudent`, `validateSubject`, etc.) | ✅ Compliant |
-| **JSON Server Database** | `db.json` with Students, Subjects, Attendance, Timetable | ✅ Compliant |
-| **Full CRUD Implementation** | `GET`, `POST`, `PUT`, `DELETE` on all four entities | ✅ Compliant |
-| **Search Functionality** | Working real-time search on Subjects and Attendance History | ✅ Compliant |
-| **Filter Functionality** | Multi-attribute filtering (Status, Safe/Shortage, Day, Date) | ✅ Compliant |
-| **Attendance Calculations** | Subject % and Overall % correctly weighted, edge cases handled | ✅ Compliant |
-| **Planner & What-If Simulator**| Real formulas for classes needed/can miss + sandboxed simulator | ✅ Compliant |
-| **Streak Tracking** | Real chronological streak calculation (Current & Longest) | ✅ Compliant |
-| **Weekly Timetable** | Day-filtered schedule with today's classes on dashboard | ✅ Compliant |
-| **Printable Report** | Formal demographic table + `@media print` layout | ✅ Compliant |
