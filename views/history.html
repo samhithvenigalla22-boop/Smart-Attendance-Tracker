@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance Summary (Hours) - Smart Attendance Tracker</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="../css/style.css?v=2.1">
+  <link rel="stylesheet" href="../css/attendance.css?v=2.1">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <div class="brand-icon">✓</div>
+          <div>
+            <div class="brand-title">Smart Attendance</div>
+            <div class="brand-subtitle">Tracker</div>
+          </div>
+        </a>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="index.html"><span class="nav-icon">📊</span>Dashboard</a></li>
+        <li class="nav-item"><a href="student.html"><span class="nav-icon">👤</span>Student Profile</a></li>
+        <li class="nav-item"><a href="subjects.html"><span class="nav-icon">📚</span>Subjects</a></li>
+        <li class="nav-item"><a href="attendance.html"><span class="nav-icon">📝</span>Mark Attendance</a></li>
+        <li class="nav-item active"><a href="history.html"><span class="nav-icon">🕒</span>Attendance Summary</a></li>
+        <li class="nav-item"><a href="planner.html"><span class="nav-icon">🎯</span>Planner & Simulator</a></li>
+        <li class="nav-item"><a href="timetable.html"><span class="nav-icon">📅</span>Timetable</a></li>
+        <li class="nav-item"><a href="reports.html"><span class="nav-icon">📄</span>Reports</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div>College Attendance Portal</div>
+        <div style="font-size: 11px; opacity: 0.8; margin-top: 2px;">Vanilla JS + Axios + JSON Server</div>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">☰</button>
+          <h1 class="page-title">Attendance Summary &amp; Hours Breakdown</h1>
+        </div>
+        <div class="topbar-right">
+          <div class="student-selector-wrap">
+            <label for="global-student-select">Active Student:</label>
+            <select id="global-student-select" class="student-select" aria-label="Select active student"></select>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <!-- Filter and Search Bar -->
+        <div class="card" style="margin-bottom: 20px;">
+          <div class="history-filter-bar">
+            <!-- Search -->
+            <div class="search-box" style="min-width: 240px;">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="history-search" class="search-input" placeholder="Search by subject name or code...">
+            </div>
+
+            <!-- Status Filter -->
+            <select id="history-status-filter" class="filter-select">
+              <option value="ALL">All Statuses</option>
+              <option value="SAFE">Safe Only (≥ Target)</option>
+              <option value="NEAR">Near Target Only</option>
+              <option value="SHORTAGE">Shortage Only</option>
+            </select>
+
+            <button class="btn btn-outline btn-sm" id="btn-reset-filters">Reset Filters</button>
+          </div>
+
+          <!-- Summary Badges for current filter view -->
+          <div class="history-stats-summary">
+            <div class="history-stat-badge">Subjects: <strong id="hist-total-count">0</strong></div>
+            <div class="history-stat-badge">Conducted: <strong id="hist-conducted-count">0 hrs</strong></div>
+            <div class="history-stat-badge">Attended: <strong id="hist-attended-count" style="color: var(--safe);">0 hrs</strong></div>
+            <div class="history-stat-badge">Absent: <strong id="hist-absent-count" style="color: var(--shortage);">0 hrs</strong></div>
+            <div class="history-stat-badge">Overall Rate: <strong id="hist-rate-pct">0%</strong></div>
+          </div>
+        </div>
+
+        <!-- History / Hours Summary Table -->
+        <div class="card">
+          <div class="table-responsive">
+            <table class="data-table" id="history-table">
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Code</th>
+                  <th>Conducted Hours</th>
+                  <th>Attended Hours</th>
+                  <th>Absent Hours</th>
+                  <th>Attendance %</th>
+                  <th>Target %</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="history-table-body">
+                <!-- Dynamically populated via history.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Edit Hours Modal -->
+  <div class="modal-backdrop" id="edit-attendance-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Adjust Subject Attendance Hours</h3>
+        <button class="modal-close" id="modal-close-history">&times;</button>
+      </div>
+      <form id="edit-attendance-form">
+        <div class="modal-body">
+          <input type="hidden" id="edit-record-id">
+          <input type="hidden" id="edit-record-subject-id">
+          
+          <div class="form-group">
+            <label class="form-label" for="edit-record-subject-name">Subject</label>
+            <input type="text" id="edit-record-subject-name" class="form-control" readonly disabled>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="edit-conducted-hours">Conducted Hours <span class="required">*</span></label>
+              <input type="number" id="edit-conducted-hours" class="form-control" min="0" required>
+              <div class="invalid-feedback" id="err-conductedHours"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="edit-attended-hours">Attended Hours <span class="required">*</span></label>
+              <input type="number" id="edit-attended-hours" class="form-control" min="0" required>
+              <div class="invalid-feedback" id="err-attendedHours"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="info-callout" id="edit-preview-callout" style="padding: 10px 14px; background: #f8fafc; border-radius: 6px; font-size: 13px;">
+              Preview: <span id="edit-preview-pct" style="font-weight: 700;">--</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="btn-cancel-edit-history">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Hours</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="module" src="../js/history.js?v=2.1"></script>
+</body>
+</html>

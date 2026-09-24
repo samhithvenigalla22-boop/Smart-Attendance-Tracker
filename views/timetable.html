@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timetable - Smart Attendance Tracker</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="../css/style.css?v=2.1">
+  <link rel="stylesheet" href="../css/timetable.css?v=2.1">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <div class="brand-icon">✓</div>
+          <div>
+            <div class="brand-title">Smart Attendance</div>
+            <div class="brand-subtitle">Tracker</div>
+          </div>
+        </a>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="index.html"><span class="nav-icon">📊</span>Dashboard</a></li>
+        <li class="nav-item"><a href="student.html"><span class="nav-icon">👤</span>Student Profile</a></li>
+        <li class="nav-item"><a href="subjects.html"><span class="nav-icon">📚</span>Subjects</a></li>
+        <li class="nav-item"><a href="attendance.html"><span class="nav-icon">📝</span>Mark Attendance</a></li>
+        <li class="nav-item"><a href="history.html"><span class="nav-icon">🕒</span>Attendance Summary</a></li>
+        <li class="nav-item"><a href="planner.html"><span class="nav-icon">🎯</span>Planner & Simulator</a></li>
+        <li class="nav-item active"><a href="timetable.html"><span class="nav-icon">📅</span>Timetable</a></li>
+        <li class="nav-item"><a href="reports.html"><span class="nav-icon">📄</span>Reports</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div>College Attendance Portal</div>
+        <div style="font-size: 11px; opacity: 0.8; margin-top: 2px;">Vanilla JS + Axios + JSON Server</div>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">☰</button>
+          <h1 class="page-title">Weekly Timetable Schedule</h1>
+        </div>
+        <div class="topbar-right">
+          <div class="student-selector-wrap">
+            <label for="global-student-select">Active Student:</label>
+            <select id="global-student-select" class="student-select" aria-label="Select active student"></select>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <!-- Timetable Image Upload Feature -->
+        <section class="timetable-image-card">
+          <div class="timetable-image-header">
+            <div>
+              <h2>📸 Timetable Photo / Schedule</h2>
+              <p>Upload your official timetable picture for instant, full-week visual reference</p>
+            </div>
+            <div>
+              <input type="file" id="timetable-file-input" accept="image/png, image/jpeg, image/jpg, image/webp" style="display: none;">
+              <button type="button" class="btn btn-outline" id="btn-trigger-upload">📁 Choose Timetable Image</button>
+            </div>
+          </div>
+
+          <!-- Empty Upload Dropzone -->
+          <div class="timetable-upload-dropzone" id="timetable-dropzone">
+            <span class="upload-icon">📷</span>
+            <div class="upload-prompt">Click or drag &amp; drop your timetable image here</div>
+            <div class="upload-hint">Supported formats: JPG, PNG, WebP (Max 5MB)</div>
+            <button type="button" class="btn btn-primary btn-sm" id="btn-select-file">Browse File</button>
+          </div>
+
+          <!-- Uploaded Image Preview & Actions -->
+          <div class="timetable-image-preview-wrapper" id="timetable-preview-container" style="display: none;">
+            <img id="timetable-image-display" class="timetable-image-preview" src="" alt="Uploaded Timetable Schedule">
+            <div class="timetable-image-toolbar">
+              <button type="button" class="btn btn-outline btn-sm" id="btn-replace-image">🔄 Replace Image</button>
+              <button type="button" class="btn btn-danger btn-sm" id="btn-remove-image">🗑 Remove Image</button>
+              <a href="#" target="_blank" class="btn btn-outline btn-sm" id="btn-view-full" style="text-decoration: none;">🔍 View Full Size</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Structured Timetable Section -->
+        <div class="card-header" style="border: none; padding-bottom: 0; margin-bottom: 20px;">
+          <div>
+            <h2 class="card-title">Class Schedule (Slot Breakdown)</h2>
+            <div class="card-subtitle">Manage lecture timings, halls, and weekly routine</div>
+          </div>
+          <button class="btn btn-primary" id="btn-add-schedule">+ Add Class Slot</button>
+        </div>
+
+        <!-- Day Filter Tabs -->
+        <div class="day-tabs" id="day-tabs-container">
+          <button class="day-tab-btn active" data-day="ALL">All Days</button>
+          <button class="day-tab-btn" data-day="Monday">Monday</button>
+          <button class="day-tab-btn" data-day="Tuesday">Tuesday</button>
+          <button class="day-tab-btn" data-day="Wednesday">Wednesday</button>
+          <button class="day-tab-btn" data-day="Thursday">Thursday</button>
+          <button class="day-tab-btn" data-day="Friday">Friday</button>
+          <button class="day-tab-btn" data-day="Saturday">Saturday</button>
+        </div>
+
+        <!-- Timetable Grid -->
+        <div class="timetable-grid" id="timetable-grid">
+          <!-- Dynamically populated via timetable.js -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Timetable Add / Edit Modal -->
+  <div class="modal-backdrop" id="timetable-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="timetable-modal-title">Add Class to Timetable</h3>
+        <button class="modal-close" id="timetable-modal-close">&times;</button>
+      </div>
+      <form id="timetable-form">
+        <div class="modal-body">
+          <input type="hidden" id="timetable-id">
+
+          <div class="form-group">
+            <label class="form-label" for="timetable-subject">Subject <span class="required">*</span></label>
+            <select id="timetable-subject" class="form-select" required></select>
+            <div class="invalid-feedback" id="err-subjectId"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="timetable-day">Day of Week <span class="required">*</span></label>
+            <select id="timetable-day" class="form-select" required>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+            </select>
+            <div class="invalid-feedback" id="err-day"></div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="timetable-start">Start Time <span class="required">*</span></label>
+              <input type="time" id="timetable-start" class="form-control" required value="09:00">
+              <div class="invalid-feedback" id="err-startTime"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="timetable-end">End Time <span class="required">*</span></label>
+              <input type="time" id="timetable-end" class="form-control" required value="10:00">
+              <div class="invalid-feedback" id="err-endTime"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="timetable-room">Classroom / Hall / Lab <span class="required">*</span></label>
+            <input type="text" id="timetable-room" class="form-control" placeholder="e.g. LH-101 or Lab-2" required>
+            <div class="invalid-feedback" id="err-room"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="btn-cancel-timetable">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-save-timetable">Save Class Slot</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="module" src="../js/timetable.js?v=2.1"></script>
+</body>
+</html>

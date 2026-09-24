@@ -1,0 +1,38 @@
+{
+  "students": [
+    {
+      "name": "karthik",
+      "rollNumber": "241FA04713",
+      "email": "karthik.student@college.edu",
+      "course": "B.Tech",
+      "branch": "CSE",
+      "section": "11",
+      "semester": "5",
+      "id": 3
+    },
+    {
+      "name": "samhith",
+      "rollNumber": "241FA04506",
+      "email": "samhithvenigalla22@gmail.com",
+      "course": "B.Tech",
+      "branch": "CSE",
+      "section": "11",
+      "semester": "5",
+      "id": 4
+    }
+  ],
+  "subjects": [
+    {
+      "studentId": 4,
+      "subjectName": "training",
+      "subjectCode": "24CS123",
+      "faculty": "jeet",
+      "targetAttendance": 75,
+      "credits": 4,
+      "classesPerWeek": 4,
+      "id": 1
+    }
+  ],
+  "attendance": [],
+  "timetable": []
+}

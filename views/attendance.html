@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mark Attendance (Hours) - Smart Attendance Tracker</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="../css/style.css?v=2.1">
+  <link rel="stylesheet" href="../css/attendance.css?v=2.1">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <div class="brand-icon">✓</div>
+          <div>
+            <div class="brand-title">Smart Attendance</div>
+            <div class="brand-subtitle">Tracker</div>
+          </div>
+        </a>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="index.html"><span class="nav-icon">📊</span>Dashboard</a></li>
+        <li class="nav-item"><a href="student.html"><span class="nav-icon">👤</span>Student Profile</a></li>
+        <li class="nav-item"><a href="subjects.html"><span class="nav-icon">📚</span>Subjects</a></li>
+        <li class="nav-item active"><a href="attendance.html"><span class="nav-icon">📝</span>Mark Attendance</a></li>
+        <li class="nav-item"><a href="history.html"><span class="nav-icon">🕒</span>Attendance Summary</a></li>
+        <li class="nav-item"><a href="planner.html"><span class="nav-icon">🎯</span>Planner & Simulator</a></li>
+        <li class="nav-item"><a href="timetable.html"><span class="nav-icon">📅</span>Timetable</a></li>
+        <li class="nav-item"><a href="reports.html"><span class="nav-icon">📄</span>Reports</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div>College Attendance Portal</div>
+        <div style="font-size: 11px; opacity: 0.8; margin-top: 2px;">Vanilla JS + Axios + JSON Server</div>
+      </div>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">☰</button>
+          <h1 class="page-title">Subject Attendance Recording (Aggregate Hours)</h1>
+        </div>
+        <div class="topbar-right">
+          <div class="student-selector-wrap">
+            <label for="global-student-select">Active Student:</label>
+            <select id="global-student-select" class="student-select" aria-label="Select active student"></select>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <!-- Summary Stats Banner -->
+        <div class="hours-summary-banner">
+          <div>
+            <h2 style="font-size: 18px; font-weight: 700; color: var(--text-main);">Hours Overview</h2>
+            <div style="font-size: 13px; color: var(--text-muted);">
+              Manage conducted and attended hours per subject. Absent hours and percentages calculate automatically.
+            </div>
+          </div>
+          <div class="summary-stats-pills">
+            <div class="hours-stat-pill">Conducted: <strong id="total-conducted-pill">0 hrs</strong></div>
+            <div class="hours-stat-pill">Attended: <strong id="total-attended-pill" style="color: var(--safe);">0 hrs</strong></div>
+            <div class="hours-stat-pill">Absent: <strong id="total-absent-pill" style="color: var(--shortage);">0 hrs</strong></div>
+            <div class="hours-stat-pill">Overall: <strong id="total-overall-pill" style="color: var(--primary);">0%</strong></div>
+          </div>
+        </div>
+
+        <!-- Subject Attendance Cards Grid -->
+        <div class="attendance-marker-grid" id="attendance-marker-grid">
+          <!-- Dynamically populated via attendance.js -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Edit / Update Hours Modal -->
+  <div class="modal-backdrop" id="hours-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="hours-modal-title">Update Subject Hours</h3>
+        <button class="modal-close" id="hours-modal-close">&times;</button>
+      </div>
+      <form id="hours-form">
+        <div class="modal-body">
+          <input type="hidden" id="modal-attendance-id">
+          <input type="hidden" id="modal-subject-id">
+
+          <div class="form-group">
+            <label class="form-label" for="modal-subject-display">Subject</label>
+            <input type="text" id="modal-subject-display" class="form-control" readonly style="background-color: #f8fafc; font-weight: 700;">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="modal-conducted-hours">Conducted Hours <span class="required">*</span></label>
+              <input type="number" id="modal-conducted-hours" class="form-control" min="0" step="1" required>
+              <div class="invalid-feedback" id="err-conductedHours"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="modal-attended-hours">Attended Hours <span class="required">*</span></label>
+              <input type="number" id="modal-attended-hours" class="form-control" min="0" step="1" required>
+              <div class="invalid-feedback" id="err-attendedHours"></div>
+            </div>
+          </div>
+
+          <!-- Live Preview Box inside Modal -->
+          <div style="background-color: #f1f5f9; border-radius: var(--border-radius-sm); padding: 12px 16px; margin-top: 8px; font-size: 13px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span>Calculated Absent Hours:</span>
+              <strong id="modal-preview-absent" style="color: var(--shortage);">0 hrs</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span>Calculated Percentage:</span>
+              <strong id="modal-preview-pct" style="color: var(--primary);">0%</strong>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="btn-cancel-hours">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-save-hours">Save Attendance</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="module" src="../js/attendance.js?v=2.1"></script>
+</body>
+</html>

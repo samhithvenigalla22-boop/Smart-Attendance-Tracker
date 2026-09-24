@@ -1,0 +1,304 @@
+/**
+ * dashboard.css
+ * Styles specific to the Main Dashboard (views/index.html)
+ */
+
+/* Welcome Banner */
+.welcome-banner {
+  background: linear-gradient(135deg, #312e81 0%, #4f46e5 100%);
+  color: #ffffff;
+  border-radius: var(--border-radius-lg);
+  padding: 28px 32px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.welcome-text h1 {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+
+.welcome-text p {
+  font-size: 14px;
+  color: #e0e7ff;
+}
+
+.student-meta-tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.meta-tag {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
+}
+
+.overall-attendance-pill {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--border-radius);
+  padding: 16px 24px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+.overall-pct-val {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.overall-pct-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #c7d2fe;
+  margin-top: 4px;
+}
+
+/* Stats Metric Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.stat-icon-blue { background-color: #eff6ff; color: #2563eb; }
+.stat-icon-green { background-color: #ecfdf5; color: #059669; }
+.stat-icon-red { background-color: #fef2f2; color: #dc2626; }
+.stat-icon-purple { background-color: #f5f3ff; color: #7c3aed; }
+.stat-icon-orange { background-color: #fffbeb; color: #d97706; }
+
+.stat-content {
+  flex-grow: 1;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Shortage Warning Banner */
+.shortage-warning-banner {
+  background: var(--shortage-bg);
+  border: 1px solid var(--shortage-border);
+  border-left: 5px solid var(--shortage);
+  border-radius: var(--border-radius);
+  padding: 18px 22px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.warning-icon {
+  font-size: 26px;
+  color: var(--shortage);
+  line-height: 1;
+}
+
+.warning-content h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #991b1b;
+  margin-bottom: 4px;
+}
+
+.warning-content p {
+  font-size: 14px;
+  color: #7f1d1d;
+}
+
+.warning-subjects-list {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.warning-subject-chip {
+  background: #ffffff;
+  border: 1px solid var(--shortage-border);
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--shortage);
+}
+
+/* Dashboard Two-Column Layout */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Subject Cards Grid */
+.subject-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.dash-subject-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dash-subject-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  border-color: #cbd5e1;
+}
+
+.dash-subject-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.dash-subject-code {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.dash-subject-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-top: 6px;
+}
+
+.dash-subject-faculty {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.dash-subject-metrics {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 12px 0 6px 0;
+}
+
+.dash-subject-pct {
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.dash-subject-counts {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.dash-subject-target {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border-color);
+}
+
+/* Today's Schedule Card */
+.today-schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.schedule-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  background-color: #f8fafc;
+  border-radius: var(--border-radius-sm);
+  border-left: 4px solid var(--primary);
+}
+
+.schedule-time {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  min-width: 75px;
+}
+
+.schedule-details {
+  flex-grow: 1;
+}
+
+.schedule-subject {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.schedule-room {
+  font-size: 12px;
+  color: var(--text-muted);
+}

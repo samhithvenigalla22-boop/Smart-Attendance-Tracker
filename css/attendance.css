@@ -1,0 +1,196 @@
+/**
+ * attendance.css
+ * Styles for Hour-Based Attendance Recording (views/attendance.html)
+ * and Attendance Summary / History (views/history.html)
+ */
+
+/* Hours Summary Banner */
+.hours-summary-banner {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.summary-stats-pills {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.hours-stat-pill {
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Hours Marker Grid */
+.attendance-marker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 22px;
+}
+
+.hours-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transition);
+}
+
+.hours-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.hours-card.card-safe {
+  border-left: 5px solid var(--safe);
+}
+
+.hours-card.card-near {
+  border-left: 5px solid var(--warning);
+}
+
+.hours-card.card-shortage {
+  border-left: 5px solid var(--shortage);
+}
+
+.hours-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.marker-subject-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-top: 4px;
+}
+
+.marker-subject-code {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* 3-Column Hours Breakdown Grid */
+.hours-breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  background-color: #f8fafc;
+  border-radius: var(--border-radius-sm);
+  padding: 12px 10px;
+  margin: 14px 0 10px 0;
+  text-align: center;
+  border: 1px solid var(--border-color);
+}
+
+.hour-stat-col .label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.hour-stat-col .val {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-top: 2px;
+}
+
+.hour-stat-col .val-attended { color: var(--safe); }
+.hour-stat-col .val-absent { color: var(--shortage); }
+
+/* Quick Action Increment Buttons */
+.quick-btn-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.btn-quick-add {
+  background-color: #ecfdf5;
+  color: var(--safe);
+  border: 1px solid var(--safe-border);
+  padding: 9px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: var(--transition);
+}
+
+.btn-quick-add:hover {
+  background-color: var(--safe);
+  color: #ffffff;
+}
+
+.btn-quick-absent {
+  background-color: #fef2f2;
+  color: var(--shortage);
+  border: 1px solid var(--shortage-border);
+  padding: 9px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: var(--transition);
+}
+
+.btn-quick-absent:hover {
+  background-color: var(--shortage);
+  color: #ffffff;
+}
+
+.hours-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border-color);
+}
+
+/* History / Summary Page Specifics */
+.history-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}

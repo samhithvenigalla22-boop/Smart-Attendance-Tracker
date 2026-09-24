@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance Report - Smart Attendance Tracker</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="../css/style.css?v=2.1">
+  <link rel="stylesheet" href="../css/reports.css?v=2.1">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <div class="brand-icon">✓</div>
+          <div>
+            <div class="brand-title">Smart Attendance</div>
+            <div class="brand-subtitle">Tracker</div>
+          </div>
+        </a>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="index.html"><span class="nav-icon">📊</span>Dashboard</a></li>
+        <li class="nav-item"><a href="student.html"><span class="nav-icon">👤</span>Student Profile</a></li>
+        <li class="nav-item"><a href="subjects.html"><span class="nav-icon">📚</span>Subjects</a></li>
+        <li class="nav-item"><a href="attendance.html"><span class="nav-icon">📝</span>Mark Attendance</a></li>
+        <li class="nav-item"><a href="history.html"><span class="nav-icon">🕒</span>Attendance Summary</a></li>
+        <li class="nav-item"><a href="planner.html"><span class="nav-icon">🎯</span>Planner & Simulator</a></li>
+        <li class="nav-item"><a href="timetable.html"><span class="nav-icon">📅</span>Timetable</a></li>
+        <li class="nav-item active"><a href="reports.html"><span class="nav-icon">📄</span>Reports</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div>College Attendance Portal</div>
+        <div style="font-size: 11px; opacity: 0.8; margin-top: 2px;">Vanilla JS + Axios + JSON Server</div>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">☰</button>
+          <h1 class="page-title">Attendance Reports & Analytics</h1>
+        </div>
+        <div class="topbar-right">
+          <div class="student-selector-wrap">
+            <label for="global-student-select">Active Student:</label>
+            <select id="global-student-select" class="student-select" aria-label="Select active student"></select>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <!-- Report Header Banner -->
+        <div class="report-header-banner">
+          <div class="report-title-block">
+            <h1>Official Attendance Progress Report</h1>
+            <p id="report-generation-date">Generated on: ---</p>
+          </div>
+          <div>
+            <button class="btn btn-primary" id="btn-print-report">🖨 Print Report</button>
+          </div>
+        </div>
+
+        <!-- Student Demographic Card -->
+        <div class="report-student-card">
+          <div class="report-info-item">
+            <div class="info-label">Student Name</div>
+            <div class="info-val" id="rep-student-name">---</div>
+          </div>
+          <div class="report-info-item">
+            <div class="info-label">Roll Number</div>
+            <div class="info-val" id="rep-student-roll">---</div>
+          </div>
+          <div class="report-info-item">
+            <div class="info-label">Course & Branch</div>
+            <div class="info-val" id="rep-student-course">---</div>
+          </div>
+          <div class="report-info-item">
+            <div class="info-label">Section & Semester</div>
+            <div class="info-val" id="rep-student-sem">---</div>
+          </div>
+          <div class="report-info-item">
+            <div class="info-label">Overall Status</div>
+            <div class="info-val" id="rep-overall-status">---</div>
+          </div>
+        </div>
+
+        <!-- Subject Audit Table -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Subject-wise Attendance Audit</h3>
+            <div class="card-subtitle">Comprehensive breakdown of all enrolled subjects</div>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" id="report-table">
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Code</th>
+                  <th>Faculty</th>
+                  <th>Conducted</th>
+                  <th>Attended</th>
+                  <th>Absent</th>
+                  <th>Attendance %</th>
+                  <th>Target %</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="report-table-body">
+                <!-- Dynamically populated via reports.js -->
+              </tbody>
+              <tfoot id="report-table-foot" style="font-weight: 700; background-color: #f8fafc;">
+                <!-- Dynamically populated via reports.js -->
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <!-- Visual Analytics Section -->
+        <div class="analytics-section">
+          <div class="analytics-grid">
+            <!-- Subject Comparison Bars -->
+            <div class="chart-card">
+              <div class="card-header">
+                <h3 class="card-title">Subject Attendance Comparison</h3>
+                <div class="card-subtitle">Attendance vs Target Threshold</div>
+              </div>
+              <div class="chart-bars-list" id="analytics-bars-list">
+                <!-- Dynamically populated via reports.js -->
+              </div>
+            </div>
+
+            <!-- Attendance Distribution & Subject Status -->
+            <div class="chart-card">
+              <div class="card-header">
+                <h3 class="card-title">Hours Distribution &amp; Status</h3>
+              </div>
+              <div>
+                <div class="dist-item">
+                  <span><span class="dist-color-dot" style="background-color: var(--safe);"></span>Hours Attended</span>
+                  <strong id="rep-dist-attended" style="color: var(--safe);">0 hrs (0%)</strong>
+                </div>
+                <div class="dist-item">
+                  <span><span class="dist-color-dot" style="background-color: var(--shortage);"></span>Hours Absent</span>
+                  <strong id="rep-dist-absent" style="color: var(--shortage);">0 hrs (0%)</strong>
+                </div>
+                <div class="dist-item">
+                  <span>🛡 Safe Subjects (≥ Target)</span>
+                  <strong id="rep-safe-count" style="color: var(--safe);">0</strong>
+                </div>
+                <div class="dist-item">
+                  <span>⚠ Shortage Subjects</span>
+                  <strong id="rep-shortage-count" style="color: var(--shortage);">0</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="module" src="../js/reports.js?v=2.1"></script>
+</body>
+</html>

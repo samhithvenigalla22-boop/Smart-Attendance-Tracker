@@ -1,0 +1,201 @@
+/**
+ * planner.css
+ * Styles for Attendance Planner & What-If Simulator (views/planner.html)
+ */
+
+.planner-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+@media (max-width: 992px) {
+  .planner-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.planner-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.planner-card-header {
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.planner-card-title {
+  font-size: 19px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.simulation-badge {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+/* Results Display Box */
+.planner-result-box {
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin-top: 24px;
+}
+
+.result-metric-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.result-metric-row:last-child {
+  border-bottom: none;
+}
+
+.result-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.result-value-highlight {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.result-value-safe {
+  color: var(--safe);
+}
+
+.result-value-danger {
+  color: var(--shortage);
+}
+
+.result-advice-banner {
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: var(--border-radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.advice-safe {
+  background-color: var(--safe-bg);
+  color: #065f46;
+  border-left: 4px solid var(--safe);
+}
+
+.advice-shortage {
+  background-color: var(--shortage-bg);
+  color: #991b1b;
+  border-left: 4px solid var(--shortage);
+}
+
+/* Simulator Comparison Component */
+.sim-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.sim-box {
+  padding: 16px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  background: #ffffff;
+}
+
+.sim-box-current {
+  background: #f8fafc;
+}
+
+.sim-box-projected {
+  border-color: var(--primary-border);
+  background: #fbfcfe;
+}
+
+.sim-box-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.sim-box-pct {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.sim-box-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.sim-diff-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.sim-diff-positive {
+  background-color: var(--safe-bg);
+  color: var(--safe);
+}
+
+.sim-diff-negative {
+  background-color: var(--shortage-bg);
+  color: var(--shortage);
+}
+
+.stepper-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stepper-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border-color);
+  background-color: #f1f5f9;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepper-btn:hover {
+  background-color: #e2e8f0;
+}

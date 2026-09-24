@@ -1,0 +1,25 @@
+{
+  "name": "smart-attendance-tracker",
+  "version": "1.0.0",
+  "description": "Smart Attendance Tracker - College Project adhering to JS-Axios-Project-Ideas-with-Folder-Rules.pdf specifications",
+  "main": "js/main.js",
+  "type": "module",
+  "scripts": {
+    "server": "json-server --watch db.json --port 3000",
+    "start": "json-server --watch db.json --static . --port 3000"
+  },
+  "keywords": [
+    "attendance",
+    "tracker",
+    "javascript",
+    "axios",
+    "json-server",
+    "crud"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "json-server": "^0.17.4"
+  }
+}

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance Planner & Simulator - Smart Attendance Tracker</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="../css/style.css?v=2.1">
+  <link rel="stylesheet" href="../css/planner.css?v=2.1">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <div class="brand-icon">✓</div>
+          <div>
+            <div class="brand-title">Smart Attendance</div>
+            <div class="brand-subtitle">Tracker</div>
+          </div>
+        </a>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="index.html"><span class="nav-icon">📊</span>Dashboard</a></li>
+        <li class="nav-item"><a href="student.html"><span class="nav-icon">👤</span>Student Profile</a></li>
+        <li class="nav-item"><a href="subjects.html"><span class="nav-icon">📚</span>Subjects</a></li>
+        <li class="nav-item"><a href="attendance.html"><span class="nav-icon">📝</span>Mark Attendance</a></li>
+        <li class="nav-item"><a href="history.html"><span class="nav-icon">🕒</span>Attendance Summary</a></li>
+        <li class="nav-item active"><a href="planner.html"><span class="nav-icon">🎯</span>Planner & Simulator</a></li>
+        <li class="nav-item"><a href="timetable.html"><span class="nav-icon">📅</span>Timetable</a></li>
+        <li class="nav-item"><a href="reports.html"><span class="nav-icon">📄</span>Reports</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div>College Attendance Portal</div>
+        <div style="font-size: 11px; opacity: 0.8; margin-top: 2px;">Vanilla JS + Axios + JSON Server</div>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">☰</button>
+          <h1 class="page-title">Attendance Planner & What-If Simulator</h1>
+        </div>
+        <div class="topbar-right">
+          <div class="student-selector-wrap">
+            <label for="global-student-select">Active Student:</label>
+            <select id="global-student-select" class="student-select" aria-label="Select active student"></select>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <div class="planner-grid">
+          <!-- CARD 1: Attendance Target Planner -->
+          <div class="planner-card">
+            <div>
+              <div class="planner-card-header">
+                <h2 class="planner-card-title">🎯 Attendance Target Planner (Hours)</h2>
+                <div class="card-subtitle">Calculate consecutive lecture hours needed or hours safe to miss</div>
+              </div>
+
+              <!-- Subject Picker -->
+              <div class="form-group">
+                <label class="form-label" for="planner-subject-select">Load from Enrolled Subject:</label>
+                <select id="planner-subject-select" class="form-select">
+                  <option value="CUSTOM">-- Custom / Manual Input --</option>
+                </select>
+              </div>
+
+              <!-- Inputs -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="planner-conducted">Conducted Hours</label>
+                  <input type="number" id="planner-conducted" class="form-control" min="0" value="50">
+                  <div class="invalid-feedback" id="err-plan-conducted"></div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="planner-attended">Attended Hours</label>
+                  <input type="number" id="planner-attended" class="form-control" min="0" value="35">
+                  <div class="invalid-feedback" id="err-plan-attended"></div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="planner-target">Target Attendance (%)</label>
+                  <input type="number" id="planner-target" class="form-control" min="1" max="100" value="75">
+                  <div class="invalid-feedback" id="err-plan-target"></div>
+                </div>
+              </div>
+
+              <!-- Results Display -->
+              <div class="planner-result-box">
+                <div class="result-metric-row">
+                  <span class="result-title">Current Attendance Rate:</span>
+                  <span class="result-value-highlight" id="plan-current-pct">70%</span>
+                </div>
+                <div class="result-metric-row">
+                  <span class="result-title">Current Status:</span>
+                  <span id="plan-status-badge"><span class="badge badge-shortage">SHORTAGE</span></span>
+                </div>
+                <div class="result-metric-row">
+                  <span class="result-title">Hours to Attend Consecutively:</span>
+                  <span class="result-value-highlight result-value-danger" id="plan-classes-needed">10 hrs</span>
+                </div>
+                <div class="result-metric-row">
+                  <span class="result-title">Hours You Can Afford to Miss:</span>
+                  <span class="result-value-highlight result-value-safe" id="plan-classes-can-miss">0 hrs</span>
+                </div>
+
+                <div class="result-advice-banner advice-shortage" id="plan-advice-banner">
+                  Attend the next 10 consecutive hours to bring your attendance to 75%.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: What-If Attendance Simulator -->
+          <div class="planner-card" id="simulator">
+            <div>
+              <div class="planner-card-header">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <h2 class="planner-card-title">🔮 What-If Simulator (Hours)</h2>
+                  <span class="simulation-badge">Simulation Only</span>
+                </div>
+                <div class="card-subtitle">Experiment with future lecture hours without altering database data</div>
+              </div>
+
+              <!-- Simulation Steppers -->
+              <div style="margin-bottom: 20px;">
+                <label class="form-label">Simulate Upcoming Lecture Hours:</label>
+
+                <div class="form-row" style="margin-top: 10px;">
+                  <div class="form-group">
+                    <label class="form-label" for="sim-attend-count" style="color: var(--safe); font-weight: 700;">
+                      + Attend Next Hours:
+                    </label>
+                    <div class="stepper-control">
+                      <button type="button" class="stepper-btn" id="btn-dec-attend">-</button>
+                      <input type="number" id="sim-attend-count" class="form-control" style="text-align: center; font-weight: 700;" value="5" min="0" max="100">
+                      <button type="button" class="stepper-btn" id="btn-inc-attend">+</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="sim-miss-count" style="color: var(--shortage); font-weight: 700;">
+                      - Miss Next Hours:
+                    </label>
+                    <div class="stepper-control">
+                      <button type="button" class="stepper-btn" id="btn-dec-miss">-</button>
+                      <input type="number" id="sim-miss-count" class="form-control" style="text-align: center; font-weight: 700;" value="0" min="0" max="100">
+                      <button type="button" class="stepper-btn" id="btn-inc-miss">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Side-by-Side Comparison -->
+              <div class="sim-comparison">
+                <div class="sim-box sim-box-current">
+                  <div class="sim-box-label">Current State</div>
+                  <div class="sim-box-pct" id="sim-cur-pct">70%</div>
+                  <div class="sim-box-sub" id="sim-cur-counts">35 / 50 hrs</div>
+                  <div id="sim-cur-badge" style="margin-top: 8px;">
+                    <span class="badge badge-shortage">SHORTAGE</span>
+                  </div>
+                </div>
+
+                <div class="sim-box sim-box-projected">
+                  <div class="sim-box-label">Projected State</div>
+                  <div class="sim-box-pct" id="sim-proj-pct" style="color: var(--primary);">72.73%</div>
+                  <div class="sim-box-sub" id="sim-proj-counts">40 / 55 hrs</div>
+                  <div id="sim-proj-badge" style="margin-top: 8px;">
+                    <span class="badge badge-shortage">SHORTAGE</span>
+                  </div>
+                  <div id="sim-diff-tag" class="sim-diff-badge sim-diff-positive">+2.73%</div>
+                </div>
+              </div>
+
+              <div class="result-advice-banner" id="sim-advice-banner" style="background: #f1f5f9; color: var(--text-main);">
+                If you attend the next 5 hours and miss 0, your attendance will rise by 2.73%.
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="module" src="../js/planner.js?v=2.1"></script>
+</body>
+</html>
